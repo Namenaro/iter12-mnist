@@ -22,10 +22,12 @@ class ExperimentLongTerm:
     def make(self, pic, x, y):
         expected_x = x + self.dx
         expected_y = y + self.dy
+        matches = {'x': [], 'y': []}
         for r in range(0, self.u_radius + 1):
             X, Y = get_coords_for_radius(expected_x, expected_y, r)
             for i in range(len(X)):
                 mean = make_measurement(pic, X[i], Y[i], r)
                 if mean >= self.event_detector_min and mean <= self.event_detector_max:
-                    return True
-        return False
+                    matches['x'].append(X[i])
+                    matches['y'].append(Y[i])
+        return matches
