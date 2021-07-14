@@ -26,8 +26,9 @@ class Motif:
         num_of_variants = ranged_matches['x']
         if len(num_of_variants == 0):
             return False
-
-        sprouts = [] # росток это последовательность записей вида "нода, фактическая координата гипотезы"
+        desired_num_of_full_sprouts = 2
+        full_sprouts = []  # сюда добавляем лишь завершенные ростки, первый лучший
+        sprouts = []  # росток это последовательность записей вида "нода, фактическая координата гипотезы"
         for i in range(num_of_variants):
             # добавляем num_of_variants новых ростков "единичной" высоты
             sprouts.append([self.first_node, ranged_matches['x'][i], ranged_matches['y'][i]])
@@ -42,14 +43,24 @@ class Motif:
 
         while True:
             if len(sprouts) == 0:
-                return False # все ростки пришли в тупик
+                # все имеющиеся на рассмотрении ростки пришли в тупик
+                if len(full_sprouts)>0:
+                    return full_sprouts
+                else:
+                    return False
             top_of_best_sprout = sprouts[0][-1]
             current_done_node = top_of_best_sprout[0]
             currentx = top_of_best_sprout[1]
             currenty = top_of_best_sprout[2]
 
             if current_done_node.next_node is None:
-                return sprouts[0] # лучший росток дорощен до успещного конца
+                # лучший росток дорощен до успещного конца
+                full_sprouts.append(list(sprouts[0]))
+                sprouts.pop(0)
+                if desired_num_of_full_sprouts < len(full_sprouts):
+                    continue
+                else:
+                    return full_sprouts
             ranged_matches = current_done_node.next_node.experiment.make(pic, currentx, currenty)
             if len(ranged_matches['x']) == 0:  # лучший росток пришел в тупик
                 sprouts.pop(0)
