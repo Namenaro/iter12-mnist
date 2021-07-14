@@ -42,7 +42,31 @@ class Motif:
 
         while True:
             if len(sprouts) == 0:
-                return False
+                return False # все ростки пришли в тупик
+            top_of_best_sprout = sprouts[0][-1]
+            current_done_node = top_of_best_sprout[0]
+            currentx = top_of_best_sprout[1]
+            currenty = top_of_best_sprout[2]
+
+            if current_done_node.next_node is None:
+                return sprouts[0] # лучший росток дорощен до успещного конца
+            ranged_matches = current_done_node.next_node.experiment.make(pic, currentx, currenty)
+            if len(ranged_matches['x']) == 0:  # лучший росток пришел в тупик
+                sprouts.pop(0)
+            else:
+                # удаляем лучший росток, и заменяем его на н штук новых соритрованных лучших ростков
+                # "на единицу" выше старого
+                new_best_sprouts = []
+                for i in range(ranged_matches['x']):
+                    new_top_for_sprout = [current_done_node.next_node, ranged_matches['x'][i], ranged_matches['y'][i] ]
+                    new_sprout = list(sprouts[0]).append(new_top_for_sprout)
+                    new_best_sprouts.append(new_sprout)
+                sprouts.pop(0)
+                sprouts = new_best_sprouts + sprouts
+
+
+
+
 
 
 
