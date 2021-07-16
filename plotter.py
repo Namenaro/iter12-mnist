@@ -1,10 +1,11 @@
-import matplotlib as plt
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
 
 def plot_trajectories_on_pic(pic, Xes, Yes):
     num_trajectories = len(Xes)
-    norm = plt.colors.Normalize(vmin=0, vmax=num_trajectories)
+    norm = mpl.colors.Normalize(vmin=0, vmax=num_trajectories)
     cmap = cm.hot
     mapper = cm.ScalarMappable(norm=norm, cmap=cmap)
     fig, ax = plt.subplots()
