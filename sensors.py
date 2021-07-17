@@ -40,7 +40,9 @@ def get_coords_for_radius(centerx, centery, radius):
         Y.append(y+centery)
     return X,Y
 
-
+def get_size_of_field_by_its_radius(radius):
+    X, _ = get_coords_for_radius(centerx=0, centery=0, radius=radius)
+    return len(X)
 
 
 

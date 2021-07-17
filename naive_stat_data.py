@@ -41,7 +41,7 @@ def count_hists_for_radiuses():
         data[radius] = {'probs':probs.tolist(), 'bins':bins.tolist()}
     return data
 
-def get_vaive_hists():
+def get_hists_for_sensradiuses():
     filename = "hists.json"
     if os.path.isfile(filename):
         with open(filename) as f:
@@ -54,8 +54,14 @@ def get_vaive_hists():
         json.dump(data, f)
     return data
 
+def get_hist_for_sensradius(sensor_field_radius):
+    rad_data = get_hists_for_sensradiuses()[sensor_field_radius]
+    probs = rad_data['probs']
+    bins =  rad_data['bins']
+    return probs, bins
+
 if __name__ == "__main__":
-    data = get_vaive_hists()
+    data = get_hists_for_sensradiuses()
 
 
 
