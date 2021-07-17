@@ -32,7 +32,7 @@ def get_hist_for_uradius_sensradius(sensor_field_radius, u_radius):
     return new_brobs, bins
 
 
-def get_likelihood_of_eventA(minA, maxA, sensor_field_radius, u_radius ):
+def get_probability_of_eventA(minA, maxA, sensor_field_radius, u_radius ):
     probs, bins = get_hist_for_sensradius(sensor_field_radius)
 
     # найдем какие бины надо "слить" друг с другом, чтоб получить вероятность события А
@@ -83,4 +83,5 @@ if __name__ == "__main__":
     logger.add_fig(fig)
 
     logger.close()
+    print(get_probability_of_eventA(100, 140, sensor_field_radius, u_radius))
 
