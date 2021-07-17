@@ -26,12 +26,17 @@ def plot_points_on_pic_first_red(pic, X,Y, colors=None):
     plt.scatter(X[1:], Y[1:], s=100, c=colors, marker='o', alpha=0.4)
     return fig
 
-def plot_hist(values, nbins=15):
+def plot_hist_from_val(values, nbins=15):
     plt.clf()
     fig, ax = plt.subplots()
     values = np.array(values).flatten()
     (probs, bins, _) = plt.hist(values, bins=nbins,
                                 weights=np.ones_like(values) / len(values), range=(0, values.max()))
+    return fig
+
+def plot_probs_bins(probs, bins):
+    fig, ax = plt.subplots()
+    plt.bar(bins[:-1], probs, width=1)
     return fig
 
 def plot_several_graphs(graphs, names):
