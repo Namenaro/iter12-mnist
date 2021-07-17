@@ -32,6 +32,31 @@ def get_hist_for_uradius_sensradius(sensor_field_radius, u_radius):
     return new_brobs, bins
 
 
+def get_likelihood_of_eventA(minA, maxA, sensor_field_radius, u_radius ):
+    probs, bins = get_hist_for_sensradius(sensor_field_radius)
+
+    # найдем какие бины надо "слить" друг с другом, чтоб получить вероятность события А
+    start_bin = None
+    end_bin = None
+    for j in range(len(bins)-1):
+        if minA >= bins[j] and minA <=bins[j+1]:
+            start_bin = j
+        if maxA >= bins[j] and maxA <=bins[j+1]:
+            end_bin = j
+
+    # считаем вероятность события А без учета неопределенности по управлению
+    A_probability = 0
+    for j in range(start_bin, end_bin+1):
+        A_probability += probs[j]
+
+    # теперь учтем, что управлений множество, и надо чтоб "хотя бы одно" привело к А
+    not_A_probability = 1 - A_probability
+    size_u_field = get_size_of_field_by_its_radius(u_radius)
+    p_of_not_even_one_in_u_set = not_A_probability ** size_u_field  # вер-ть, что для всех u выполнится !А
+    p_of_at_least_one_in_u_set = 1 - p_of_not_even_one_in_u_set # вер-ть, что хотя бы для одного u выполнится А
+    return p_of_at_least_one_in_u_set
+
+
 if __name__ == "__main__":
     logger = HtmlLogger("EX0")
     sensor_field_radius = 2
