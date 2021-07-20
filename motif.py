@@ -10,23 +10,22 @@ class Motif:
     def __init__(self, first_node):
         self.first_node = first_node
 
-    def apply_to_pic(self,pic):
+    def apply_to_pic(self,pic, desired_num_of_full_sprouts):
         ymax = pic.shape[0]
         xmax = pic.shape[1]
 
         for centery in range(0, ymax):
             for centerx in range(0, xmax):
-                best_branch = self.try_grow_from_point(pic, centerx, centery)
+                best_branch = self.try_grow_from_point(pic, centerx, centery, desired_num_of_full_sprouts)
                 if best_branch is not None:
                     return best_branch
         return False
 
-    def try_grow_from_point(self, pic, xstart, ystart):
+    def try_grow_from_point(self, pic, xstart, ystart,desired_num_of_full_sprouts):
         ranged_matches = self.first_node.experiment.make(pic, xstart, ystart)
         num_of_variants = ranged_matches['x']
         if len(num_of_variants == 0):
             return False
-        desired_num_of_full_sprouts = 2
         full_sprouts = []  # сюда добавляем лишь завершенные ростки, первый лучший
         sprouts = []  # росток это последовательность записей вида "нода, фактическая координата гипотезы"
         for i in range(num_of_variants):
