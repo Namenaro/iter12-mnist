@@ -16,9 +16,9 @@ class Motif:
 
         for centery in range(0, ymax):
             for centerx in range(0, xmax):
-                best_branch = self.try_grow_from_point(pic, centerx, centery, desired_num_of_full_sprouts)
-                if best_branch is not None:
-                    return best_branch
+                full_sprouts = self.try_grow_from_point(pic, centerx, centery, desired_num_of_full_sprouts)
+                if full_sprouts is not None:
+                    return full_sprouts
         return False
 
     def try_grow_from_point(self, pic, xstart, ystart,desired_num_of_full_sprouts):
