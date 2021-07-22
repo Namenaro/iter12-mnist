@@ -17,12 +17,27 @@ def visualise_on_pic(motif, pic, desired_num_of_full_sprouts, logger):
         ax.scatter(x, y, s=100, c='red', marker='o', alpha=0.4)
     logger.add_fig(fig)
 
+    key = list(dict_coords_sprouts.keys())[0]
+    sprouts = dict_coords_sprouts[key]
+    fig = plot_sprout(sprouts[0], pic)
+    logger.add_fig(fig)
 
 
 
 
 def plot_sprout(sprout, pic):
-    pass
+    fig, ax = plt.subplots()
+    ax.imshow(pic, cmap='gray_r')
+    X=[]
+    Y=[]
+    for triple in sprout:
+        x= triple[1]
+        y= triple[2]
+        X.append(x)
+        Y.append(y)
+    ax.plot(X,Y, 'o-')
+    return fig
+
 
 if __name__ == "__main__":
     from save_motif import *
