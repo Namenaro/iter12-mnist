@@ -31,13 +31,26 @@ def get_coords_less_or_eq_raduis(centerx, centery, radius):
     return XB, YB
 
 def get_coords_for_radius(centerx, centery, radius):
-    #x+y=radius ->  y=radius-x
+    #|x|+|y|=radius ->  |y|=radius-|x|
+    # x>0  -> y1 = radius-|x|
     X=[]
     Y=[]
-    for x in range(0,radius+1):
-        y=radius-x
-        X.append(x+centerx)
-        Y.append(y+centery)
+
+    for modx in range(0,radius+1):
+        # x>0
+        mody = radius - modx
+
+        X.append(modx+centerx)
+        Y.append(mody+centery)
+
+        X.append(modx + centerx)
+        Y.append(-mody + centery)
+        # x<0
+        X.append(-modx + centerx)
+        Y.append(mody + centery)
+
+        X.append(-modx + centerx)
+        Y.append(-mody + centery)
     return X,Y
 
 def get_size_of_field_by_its_radius(radius):

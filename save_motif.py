@@ -51,5 +51,5 @@ def motif_from_json(json_name):
 if __name__ == "__main__":
     from init_motif import *
     motif = init_motif_handly()
-    motif_to_json("motif2.json", motif)
+    motif_to_json("motif3.json", motif)
     #motif = motif_from_json("motif2.json")

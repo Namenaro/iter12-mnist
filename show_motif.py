@@ -4,6 +4,7 @@ import matplotlib.cm as cm
 
 from motif import *
 from logger import *
+from sensors import *
 
 def visualise_on_pic(motif, pic, desired_num_of_full_sprouts, logger):
     # росток это последовательность записей вида "нода, фактическая координата гипотезы"
@@ -23,14 +24,13 @@ def visualise_on_pic(motif, pic, desired_num_of_full_sprouts, logger):
     for key in dict_coords_sprouts.keys():
         sprouts_from_point = dict_coords_sprouts[key]
         for sprout in sprouts_from_point:
-            plot_sprout(sprout, pic, ax)
+            plot_sprout_with_radiuses(sprout, pic, ax)
     logger.add_fig(fig)
 
 
 
 
 def plot_sprout(sprout, pic, ax):
-
     ax.imshow(pic, cmap='gray_r')
     X=[]
     Y=[]
@@ -42,7 +42,24 @@ def plot_sprout(sprout, pic, ax):
 
     ax.plot(X,Y, 'o-')
 
+def plot_sprout_with_radiuses(sprout, pic, ax):
+    ax.imshow(pic, cmap='gray_r')
+    X=[]
+    Y=[]
+    for triple in sprout:
+        x= triple[1]
+        y= triple[2]
+        X.append(x)
+        Y.append(y)
+        u_radius = triple[0].experiment.u_radius
+        UX, UY = get_coords_less_or_eq_raduis(x, y, u_radius)
+        plt.scatter(UX, UY, s=100, c='blue', marker='o', alpha=0.4)
 
+        # sensor_field_radius = triple[0].experiment.sensor_field_radius
+        # sensX, sensY = get_coords_less_or_eq_raduis(x, y, sensor_field_radius)
+        # plt.scatter(sensX, sensY, s=100, c="#308040", marker='*', alpha=0.8)
+
+    ax.plot(X,Y, 'o-')
 
 if __name__ == "__main__":
     from save_motif import *
@@ -50,7 +67,7 @@ if __name__ == "__main__":
     from data import *
 
     logger = HtmlLogger("EX1")
-    motif = motif_from_json("motif2.json")
+    motif = motif_from_json("motif3.json")
     #motif = init_motif_handly()
     pic = etalons_of3()[0]
     desired_num_of_full_sprouts=2
