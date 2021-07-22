@@ -5,7 +5,7 @@ import matplotlib.cm as cm
 from motif import *
 from logger import *
 from sensors import *
-from save_motif import *
+from create_motif import *
 from init_motif import *
 from data import *
 
