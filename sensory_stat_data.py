@@ -64,12 +64,33 @@ def get_hist_for_sensradius(sensor_field_radius):
 
 if __name__ == "__main__":
     logger = HtmlLogger("EX0")
-    sensor_field_radius = 3
 
+    sensor_field_radius = 1
     probs, bins = get_hist_for_sensradius(sensor_field_radius)
     logger.add_text("sensor_field_radius:" + str(sensor_field_radius))
     fig = plot_probs_bins(probs, bins)
     logger.add_fig(fig)
+
+    sensor_field_radius = 3
+    probs, bins = get_hist_for_sensradius(sensor_field_radius)
+    logger.add_text("sensor_field_radius:" + str(sensor_field_radius))
+    fig = plot_probs_bins(probs, bins)
+    logger.add_fig(fig)
+
+    sensor_field_radius = 4
+    probs, bins = get_hist_for_sensradius(sensor_field_radius)
+    logger.add_text("sensor_field_radius:" + str(sensor_field_radius))
+    fig = plot_probs_bins(probs, bins)
+    logger.add_fig(fig)
+
+    sensor_field_radius = 6
+    probs, bins = get_hist_for_sensradius(sensor_field_radius)
+    logger.add_text("sensor_field_radius:" + str(sensor_field_radius))
+    fig = plot_probs_bins(probs, bins)
+    logger.add_fig(fig)
+
+
+
     logger.close()
 
 

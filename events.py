@@ -58,8 +58,8 @@ def get_probability_of_eventA(minA, maxA, sensor_field_radius, u_radius ):
 
 
 if __name__ == "__main__":
-    logger = HtmlLogger("EX0")
-    sensor_field_radius = 2
+    logger = HtmlLogger("EX1")
+    sensor_field_radius = 1
 
     u_radius = 1
     probs, bins = get_hist_for_uradius_sensradius(sensor_field_radius, u_radius)
@@ -83,5 +83,5 @@ if __name__ == "__main__":
     logger.add_fig(fig)
 
     logger.close()
-    print(get_probability_of_eventA(100, 140, sensor_field_radius, u_radius))
+    print(get_probability_of_eventA(120, 140, sensor_field_radius=1, u_radius=1))
 
