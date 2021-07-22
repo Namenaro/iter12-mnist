@@ -2,7 +2,7 @@ import json
 import os.path
 
 from experiment import *
-
+from motif import *
 
 def motif_to_json(json_name, motif):
     nodes_dicts = {}
@@ -50,6 +50,6 @@ def motif_from_json(json_name):
 
 if __name__ == "__main__":
     from init_motif import *
-    motif = init_motif_handly([])
-    motif_to_json("json_name.json", motif)
-    motif = motif_from_json("json_name.json")
+    motif = init_motif_handly()
+    motif_to_json("motif.json", motif)
+    motif = motif_from_json("motif.json")
