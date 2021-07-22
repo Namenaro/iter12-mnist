@@ -26,7 +26,7 @@ class ExperimentLongTerm:
         for r in range(0, self.u_radius + 1):
             X, Y = get_coords_for_radius(expected_x, expected_y, r)
             for i in range(len(X)):
-                mean = make_measurement(pic, X[i], Y[i], r)
+                mean = make_measurement(pic, X[i], Y[i], self.sensor_field_radius)
                 if mean >= self.event_detector_min and mean <= self.event_detector_max:
                     matches['x'].append(X[i])
                     matches['y'].append(Y[i])

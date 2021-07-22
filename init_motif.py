@@ -5,7 +5,7 @@ from data import *
 from experiment import ExperimentLongTerm
 from motif import Node, Motif
 from sensors import *
-
+from plotter import *
 import uuid
 
 # руками инициализируем мотив:
@@ -46,8 +46,15 @@ def make_node_from_info_dict(node_id, lastx, lasty, x, y, info_dict, pic):
 
 
 def init_motif_handly(keys=["sensor_field_radius", "event_diameter", 'u_radius' ]):
+
     pic = etalons_of3()[0]
     X, Y, info_dicts = select_coord_on_pic(pic,keys )
+    #---
+    plot_points_on_pic_first_red(pic, X, Y)
+    plt.savefig("poiints.png")
+    print("X=" + str(X))
+    print("Y=" + str(Y))
+    #----
     nodes = []
     first_node = make_node_from_info_dict(node_id=str(uuid.uuid4()), lastx=None, lasty=None,
                                           x=X[0], y=Y[0],info_dict=info_dicts[0], pic=pic)
@@ -58,7 +65,7 @@ def init_motif_handly(keys=["sensor_field_radius", "event_diameter", 'u_radius' 
     if len(nodes)>0:
         first_node.next_node = nodes[0]
         for i in range(len(nodes)-1):
-            node[i].next_node = nodes[i+1]
+            nodes[i].next_node = nodes[i+1]
 
 
     motif = Motif(first_node)

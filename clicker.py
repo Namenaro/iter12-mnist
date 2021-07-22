@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import math
 
+
+
 class CoordSelector:
     def __init__(self, image,keys=None):
         self.image = image
@@ -19,11 +21,14 @@ class CoordSelector:
                event.x, event.y, event.xdata, event.ydata))
         x = math.ceil(event.xdata)
         y = math.ceil(event.ydata)
+
         plt.scatter(x, y, s=100, c='red', marker='o', alpha=0.4)
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()
-        self.resultx.append(math.ceil(event.xdata))
-        self.resulty.append(math.ceil(event.ydata))
+
+
+        self.resultx.append(x)
+        self.resulty.append(y)
         if self.keys is not None:
             info_dict = {}
             for key in self.keys:

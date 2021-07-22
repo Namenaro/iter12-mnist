@@ -24,7 +24,7 @@ def motif_to_json(json_name, motif):
 
 
 def motif_from_json(json_name):
-    nodes = []
+
     if os.path.isfile(json_name):
         with open(json_name) as f:
             nodes_dicts = json.load(f)
@@ -51,5 +51,5 @@ def motif_from_json(json_name):
 if __name__ == "__main__":
     from init_motif import *
     motif = init_motif_handly()
-    motif_to_json("motif.json", motif)
-    motif = motif_from_json("motif.json")
+    motif_to_json("motif2.json", motif)
+    #motif = motif_from_json("motif2.json")
