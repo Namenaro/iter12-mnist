@@ -39,6 +39,12 @@ class Prediction:
                 nearest_mean = mean
         return nearest_mean
 
+def predictions_to_json(json_name, predictions):
+    pass
+
+def predictions_from_json(json_name):
+    pass
+
 def PREDICTION_EXPERIMENT(logger):
     motif, init_coords = motif_from_json("simplest.motif")
     pics = etalons_of3()
