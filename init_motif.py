@@ -69,7 +69,8 @@ def init_motif_handly(keys=["sensor_field_radius", "event_diameter", 'u_radius' 
 
 
     motif = Motif(first_node)
-    return motif
+    init_coords = [X[0], Y[0]]
+    return motif, init_coords
 
 
 

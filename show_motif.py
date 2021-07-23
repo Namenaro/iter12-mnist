@@ -64,7 +64,7 @@ def plot_sprout_with_radiuses(sprout, pic, ax):
 
 def ONE_PIC_EXP():
     logger = HtmlLogger("EX2")
-    motif = motif_from_json("motif3.json")
+    motif,_ = motif_from_json("motif3.json")
     # motif = init_motif_handly()
     pic = etalons_of3()[0]
     desired_num_of_full_sprouts = 2
@@ -73,7 +73,7 @@ def ONE_PIC_EXP():
 
 def MANY_PIC_EXP():
     logger = HtmlLogger("EX3")
-    motif = motif_from_json("motif3.json")
+    motif,_ = motif_from_json("simplest.motif")
     desired_num_of_full_sprouts = 3
     pics = etalons_of3()
     for pic in pics:
