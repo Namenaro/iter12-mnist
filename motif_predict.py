@@ -22,15 +22,34 @@ from create_motif import *
 from init_motif import *
 from data import *
 
+class Prediction:
+    def __init__(self, dx, dy, u_radius, etalon_mean, sensor_field_radius):
+        self.dx = dx
+        self.dy = dy
+        self.u_radius = u_radius
+        self.etalon_mean = etalon_mean
+        self.sensor_field_radius = sensor_field_radius
+
+    def apply(self, pic, anchorx, anchory):
+        X, Y = get_coords_less_or_eq_raduis(anchorx, anchory, self.u_radius)
+        nearest_mean =  make_measurement(pic, X[0], Y[0], self.sensor_field_radius)
+        for i in range(1, len(X)):
+            mean = make_measurement(pic, X[i], Y[i], self.sensor_field_radius)
+            if abs(mean - self.etalon_mean) < abs(nearest_mean - self.etalon_mean):
+                nearest_mean = mean
+        return nearest_mean
+
 def PREDICTION_EXPERIMENT(logger):
     motif, init_coords = motif_from_json("simplest.motif")
-    desired_num_of_full_sprouts = 3
     pics = etalons_of3()
     predictions = init_predictions(pics[0], init_coords)
-    raw_predictions_data = gather_stat_for_predictions(pics, motif, predictions)
-    for prediction in predictions:
+    raw_acivations_data = gather_stat_for_predictions(pics, motif, predictions)
+    visualise_predictions_stat(predictions, raw_acivations_data, logger)
 
 def init_predictions(pic, init_coords):
+    pass
+
+def visualise_predictions_stat(predictions, raw_acivations_data, logger):
     pass
 
 def gather_stat_for_predictions(pics, motif, predictions):
@@ -40,12 +59,13 @@ def gather_stat_for_predictions(pics, motif, predictions):
         for coords in dict_coords_sprouts.keys():
             for prediction_id in predictions.keys():
                 res = check_prediction(predictions[prediction_id], pic, coords[0], coords[1])
-                raw_acivations_data[prediction_id].append(res)
+                raw_acivations_data[prediction_id] =raw_acivations_data[prediction_id] + res
     return raw_acivations_data
 
 
-def check_prediction(prediction, pic, anchorx, anchory):
-    pass
+def check_prediction(prediction, pic, anchorx, anchory):   #return array!!!
+    val = prediction.apply(pic, anchorx, anchory)
+    return val
 
 if __name__ == "__main__":
     logger = HtmlLogger("EX_PRED")
