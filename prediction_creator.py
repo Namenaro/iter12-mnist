@@ -24,12 +24,13 @@ from data import *
 import uuid
 
 class Prediction:
-    def __init__(self, dx, dy, u_radius, etalon_mean, sensor_field_radius):
+    def __init__(self, dx, dy, u_radius, etalon_mean, sensor_field_radius, stat={}):
         self.dx = dx
         self.dy = dy
         self.u_radius = u_radius
         self.etalon_mean = etalon_mean
         self.sensor_field_radius = sensor_field_radius
+        self.stat = stat
 
     def apply(self, pic, anchorx, anchory):
         X, Y = get_coords_less_or_eq_raduis(anchorx, anchory, self.u_radius)
@@ -76,7 +77,6 @@ def init_predictions_dict(pic, init_coords, u_radiuses, sensor_field_radiuses ):
 
 
 if __name__ == "__main__":
-
     pics = etalons_of3()
     motif, init_coords = motif_from_json("simplest.motif")
     predictions = init_predictions_dict(pics[0], init_coords,  u_radiuses=[3], sensor_field_radiuses=[2,3])

@@ -8,7 +8,7 @@ from sensory_stat_data import get_hist
 from create_motif import *
 from init_motif import *
 from data import *
-from prediction import *
+from prediction_creator import *
 
 
 def gather_stat_for_predictions(pics, motif, predictions):
