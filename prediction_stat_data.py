@@ -4,6 +4,7 @@
 # выводим статистику активаций в лог
 
 from prediction_creator import *
+from logger import *
 from sensory_stat_data import get_hist
 
 from random import choice
@@ -29,8 +30,8 @@ def gather_activations_sample_for_prediction(prediction, pics, n_samples):
     return activations
 
 def gather_stat_for_predictions_json(json_name):
-    n_samples = 200
-    pics = get_diverse_set_of_numbers(66)
+    n_samples = 400
+    pics = get_diverse_set_of_numbers(200)
     predictions = predictions_from_json(json_name)
     for prediction_id in predictions.keys():
         prediction = predictions[prediction_id]
@@ -39,8 +40,21 @@ def gather_stat_for_predictions_json(json_name):
         predictions[prediction_id].stat = {'probs':probs.tolist(), 'bins':bins.tolist()}
     predictions_to_json(json_name, predictions)
 
+def visualise_stat(json_name):
+    logger = HtmlLogger("NoConPred")
+    predictions = predictions_from_json(json_name)
+    for prediction_id in predictions.keys():
+        prediction = predictions[prediction_id]
+        logger.add_text(str(vars(prediction)))
+        probs, bins = prediction.stat['probs'], prediction.stat['bins']
+        fig = plot_probs_bins(probs, bins)
+        logger.add_fig(fig)
+    logger.close()
+
 if __name__ == "__main__":
-    gather_stat_for_predictions_json(json_name="predict.predictions")
+    json_name = "predict.predictions"
+    gather_stat_for_predictions_json(json_name)
+    visualise_stat(json_name)
 
 
 
