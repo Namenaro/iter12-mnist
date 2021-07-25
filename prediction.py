@@ -33,7 +33,7 @@ class Prediction:
 
     def apply(self, pic, anchorx, anchory):
         X, Y = get_coords_less_or_eq_raduis(anchorx, anchory, self.u_radius)
-        nearest_mean =  make_measurement(pic, X[0], Y[0], self.sensor_field_radius)
+        nearest_mean = make_measurement(pic, X[0], Y[0], self.sensor_field_radius)
         for i in range(1, len(X)):
             mean = make_measurement(pic, X[i], Y[i], self.sensor_field_radius)
             if abs(mean - self.etalon_mean) < abs(nearest_mean - self.etalon_mean):
@@ -41,7 +41,11 @@ class Prediction:
         return nearest_mean
 
 def predictions_to_json(json_name, predictions):
-
+    predictions_dicts = {}
+    for prediction_id in predictions.keys():
+        predictions_dicts[prediction_id] = vars(predictions[prediction_id])
+    with open(json_name, 'w') as f:
+        json.dump(predictions_dicts, f)
 
 def predictions_from_json(json_name):
     predictions = {}
@@ -54,12 +58,7 @@ def predictions_from_json(json_name):
             return predictions
     return None
 
-def PREDICTION_EXPERIMENT(logger):
-    motif, init_coords = motif_from_json("simplest.motif")
-    pics = etalons_of3()
-    predictions = init_predictions_dict(pics[0], init_coords)
-    raw_acivations_data = gather_stat_for_predictions(pics, motif, predictions)
-    visualise_predictions_stat(predictions, raw_acivations_data, logger)
+
 
 def init_predictions_dict(pic, init_coords, u_radiuses, sensor_field_radiuses ):
     X, Y = select_coord_on_pic(pic)
@@ -74,25 +73,13 @@ def init_predictions_dict(pic, init_coords, u_radiuses, sensor_field_radiuses ):
                 predictions_dict[str(uuid.uuid4())] = prediction
     return predictions_dict
 
-def visualise_predictions_stat(predictions, raw_acivations_data, logger):
-    pass
 
-def gather_stat_for_predictions(pics, motif, predictions):
-    raw_acivations_data = {id:[] for id in list(predictions.keys())}
-    for pic in pics:
-        dict_coords_sprouts = motif.get_sprouts_for_all_pic(pic,  desired_num_of_full_sprouts=1)
-        for coords in dict_coords_sprouts.keys():
-            for prediction_id in predictions.keys():
-                res = check_prediction(predictions[prediction_id], pic, coords[0], coords[1])
-                raw_acivations_data[prediction_id] =raw_acivations_data[prediction_id] + res
-    return raw_acivations_data
-
-
-def check_prediction(prediction, pic, anchorx, anchory):   #return array!!!
-    val = prediction.apply(pic, anchorx, anchory)
-    return val
 
 if __name__ == "__main__":
-    logger = HtmlLogger("EX_PRED")
-    PREDICTION_EXPERIMENT(logger)
-    logger.close()
+
+    pics = etalons_of3()
+    motif, init_coords = motif_from_json("simplest.motif")
+    predictions = init_predictions_dict(pics[0], init_coords,  u_radiuses=[0], sensor_field_radiuses=[1])
+    predictions_to_json("predict.predictions", predictions)
+    predictions = predictions_from_json("predict.predictions")
+
