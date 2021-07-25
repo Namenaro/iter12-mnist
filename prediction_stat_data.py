@@ -2,7 +2,7 @@
 # открываем набор произвольных картинок
 # случайным образом бегаем по случайным точкам картинок (берем их в качестве якорей)
 # выводим статистику активаций в лог
-
+from prediction import Prediction
 from prediction_creator import *
 from logger import *
 from sensory_stat_data import get_hist
