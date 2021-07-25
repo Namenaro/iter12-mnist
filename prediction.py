@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     pics = etalons_of3()
     motif, init_coords = motif_from_json("simplest.motif")
-    predictions = init_predictions_dict(pics[0], init_coords,  u_radiuses=[0], sensor_field_radiuses=[1])
+    predictions = init_predictions_dict(pics[0], init_coords,  u_radiuses=[3], sensor_field_radiuses=[2,3])
     predictions_to_json("predict.predictions", predictions)
     predictions = predictions_from_json("predict.predictions")
 
