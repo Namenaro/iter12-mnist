@@ -21,6 +21,7 @@ from sensors import *
 from create_motif import *
 from init_motif import *
 from data import *
+import uuid
 
 class Prediction:
     def __init__(self, dx, dy, u_radius, etalon_mean, sensor_field_radius):
@@ -40,20 +41,38 @@ class Prediction:
         return nearest_mean
 
 def predictions_to_json(json_name, predictions):
-    pass
+
 
 def predictions_from_json(json_name):
-    pass
+    predictions = {}
+    if os.path.isfile(json_name):
+        with open(json_name) as f:
+            predictions_dicts = json.load(f)
+            for prediction_id in predictions_dicts.keys():
+                prediction = Prediction(**predictions_dicts[prediction_id])
+                predictions[prediction_id] = prediction
+            return predictions
+    return None
 
 def PREDICTION_EXPERIMENT(logger):
     motif, init_coords = motif_from_json("simplest.motif")
     pics = etalons_of3()
-    predictions = init_predictions(pics[0], init_coords)
+    predictions = init_predictions_dict(pics[0], init_coords)
     raw_acivations_data = gather_stat_for_predictions(pics, motif, predictions)
     visualise_predictions_stat(predictions, raw_acivations_data, logger)
 
-def init_predictions(pic, init_coords):
-    pass
+def init_predictions_dict(pic, init_coords, u_radiuses, sensor_field_radiuses ):
+    X, Y = select_coord_on_pic(pic)
+    predictions_dict = {}
+    for i in range(len(X)):
+        dx = X[i] - init_coords[0]
+        dy = Y[i] - init_coords[1]
+        for u_radius in u_radiuses:
+            for sensor_field_radius in sensor_field_radiuses:
+                etalon_mean = make_measurement(pic, X[i], Y[i], sensor_field_radius)
+                prediction = Prediction(dx, dy, u_radius, etalon_mean, sensor_field_radius)
+                predictions_dict[str(uuid.uuid4())] = prediction
+    return predictions_dict
 
 def visualise_predictions_stat(predictions, raw_acivations_data, logger):
     pass
