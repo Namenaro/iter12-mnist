@@ -37,6 +37,7 @@ def plot_hist_from_val(values, nbins=15):
 def plot_probs_bins(probs, bins):
     fig, ax = plt.subplots()
     plt.bar(bins[:-1], probs, width=1)
+    plt.ylim(0, 1)
     return fig
 
 def plot_several_graphs(graphs, names):

@@ -26,8 +26,8 @@ def draw_motif_and_preds(motif, init_coords, predictions):
         if current_node.next_node is None:
             break
         current_node = current_node.next_node
-        X.append[X[-1]+current_node.experiment.dx]
-        Y.append[Y[-1] + current_node.experiment.dy]
+        X.append(X[-1]+current_node.experiment.dx)
+        Y.append(Y[-1] + current_node.experiment.dy)
         UX, UY = get_coords_less_or_eq_raduis(X[-1], Y[-1], current_node.experiment.u_radius)
         ax.scatter(UX, UY, s=100, c='blue', marker='o', alpha=0.4)
     ax.plot(X, Y, 'o-')
@@ -83,4 +83,4 @@ def make_exepriment_1(name):
     logger.close()
 
 if __name__ == "__main__":
-    make_exepriment_1("one")
+    make_exepriment_1("two")
