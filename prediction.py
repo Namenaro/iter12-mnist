@@ -20,7 +20,7 @@ class Prediction:
         self.stat = stat
 
     def apply(self, pic, anchorx, anchory):
-        X, Y = get_coords_less_or_eq_raduis(anchorx, anchory, self.u_radius)
+        X, Y = get_coords_less_or_eq_raduis(anchorx + self.dx, anchory+self.dy, self.u_radius)
         nearest_mean = make_measurement(pic, X[0], Y[0], self.sensor_field_radius)
         for i in range(1, len(X)):
             mean = make_measurement(pic, X[i], Y[i], self.sensor_field_radius)
