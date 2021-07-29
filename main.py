@@ -76,12 +76,18 @@ def make_exepriment_1(name):
 
     # создаем предсказание, созраняем
     json_name_prediction = name+".prediction"
-    predictions = init_predictions_dict(etalons_of3()[0], init_coords, u_radiuses=[1], sensor_field_radiuses=[1])
+    predictions = init_predictions_dict(etalons_of3()[0], init_coords, u_radiuses=[2,3], sensor_field_radiuses=[1])
     predictions_to_json(json_name_prediction, predictions)
 
-    # 3. Выводим безусловную гистограмму по one.prediction
+    # Получаем безусловную гистограмму по всем предсказаниям
     gather_stat_for_predictions_json(json_name_prediction)
     predictions = predictions_from_json(json_name_prediction)
+
+    # получаем условную выборку по всем предсказаниям
+    pics = get_diverse_set_of_numbers(n=50)
+    raw_acivations_data = gather_stat_for_predictions(pics, motif, predictions)
+
+    # выводим для всех предсказаний обе гистограммы
     for prediction_id in predictions.keys():
         prediction = predictions[prediction_id]
         logger.add_text("Unconditional:")
@@ -90,25 +96,25 @@ def make_exepriment_1(name):
         fig = plot_probs_bins(probs, bins)
         logger.add_fig(fig)
 
-    # 4. Выводим условную гистограмму по нему же относительно мотива.
-    pics = etalons_of3()
-    raw_acivations_data = gather_stat_for_predictions(pics, motif, predictions)
-    for prediction_key in predictions.keys():
         logger.add_text("Conditional:")
-        activations = raw_acivations_data[prediction_key]
+        activations = raw_acivations_data[prediction_id]
         logger.add_text("NUM_ACTIVATIONS=" + str(len(activations)))
         probs, bins = get_hist(activations, nbins=20)
         fig = plot_probs_bins(probs, bins)
+        logger.add_text("probs" +str(probs))
+        logger.add_text("bins" + str(bins))
         logger.add_fig(fig)
+        logger.add_text("-----------------------------------------------")
 
-    # 5. В джсон рисуем картинку с тройкой + исходный мотив (по координате) + точка предсказания
-    logger.add_text("visualise with u-radius:")
-    draw_motif_and_predsU(motif, init_coords, predictions, logger)
-    logger.add_text("visualise with sensory-field-radius:")
-    draw_motif_and_predsS(motif, init_coords, predictions, logger)
+        pr= {prediction_id:predictions[prediction_id]}
+        logger.add_text("visualise with u-radius:")
+        draw_motif_and_predsU(motif, init_coords, pr, logger)
+        logger.add_text("visualise with sensory-field-radius:")
+        draw_motif_and_predsS(motif, init_coords, pr, logger)
+
 
     # изуализируем срабатываемость мотива
-    logger.add_text("how oftn motif fires:")
+    logger.add_text("-----how often motif fires-----:")
     visualise_motif_on_many_pics(motif, logger)
 
     logger.close()

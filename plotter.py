@@ -31,7 +31,7 @@ def plot_hist_from_val(values, nbins=15):
     fig, ax = plt.subplots()
     values = np.array(values).flatten()
     (probs, bins, _) = plt.hist(values, bins=nbins,
-                                weights=np.ones_like(values) / len(values), range=(0, values.max()))
+                                weights=np.ones_like(values) / len(values), range=(0, 255))
     return fig
 
 def plot_probs_bins(probs, bins):
