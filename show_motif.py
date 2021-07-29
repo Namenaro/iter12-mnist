@@ -87,6 +87,19 @@ def MANY_PIC_EXP():
         logger.add_fig(fig)
     logger.close()
 
+def visualise_motif_on_many_pics(motif, logger):
+    desired_num_of_full_sprouts = 1
+    pics = etalons_of3()
+    for pic in pics:
+        dict_coords_sprouts = motif.get_sprouts_for_all_pic(pic, desired_num_of_full_sprouts)
+        # рисуем все ростки, из всех точек
+        fig, ax = plt.subplots()
+        for key in dict_coords_sprouts.keys():
+            sprouts_from_point = dict_coords_sprouts[key]
+            for sprout in sprouts_from_point:
+                plot_sprout_with_radiuses(sprout, pic, ax)
+        logger.add_fig(fig)
+
 if __name__ == "__main__":
     MANY_PIC_EXP()
 
